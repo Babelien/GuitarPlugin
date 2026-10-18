@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 
 static const juce::String vendorName = "Tokyo Toneworks";
+static const juce::String productName = "Cheap Strat";
 
 //==============================================================================
 /**

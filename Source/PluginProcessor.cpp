@@ -205,6 +205,7 @@ void GuitarPluginAudioProcessor::createSoundForArticulation(
                 juce::File file =
                     juce::File::getSpecialLocation(juce::File::commonDocumentsDirectory)
                     .getChildFile(vendorName)
+                    .getChildFile(productName)
                     .getChildFile("Samples")
                     .getChildFile(articulation.first)
                     .getChildFile(sampleName);
@@ -252,7 +253,7 @@ void GuitarPluginAudioProcessor::setupSynth()
 	createSoundForArticulation(synth, manager, fx, 93, 93, 1); // 1 Round Robin for Brush articulation
 
     // SynthesiserVoice
-    for (int i = 0; i < 6; ++i) // 6 Strings Guitar
+    for (int i = 0; i < 118; ++i) // 6 Strings Guitar
     {
         synth->addVoice(new juce::SamplerVoice());
     }
