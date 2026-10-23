@@ -5,6 +5,8 @@
               companyName="Tokyo Toneworks" pluginFormats="buildStandalone,buildVST3">
   <MAINGROUP id="uYxzDl" name="Demonic Guitar">
     <GROUP id="{11F73EEE-1B17-A0E7-C5AF-AB87C3C85062}" name="Source">
+      <FILE id="oDypF7" name="MyKeyboard.cpp" compile="1" resource="0" file="Source/MyKeyboard.cpp"/>
+      <FILE id="qN1V0L" name="MyKeyboard.h" compile="0" resource="0" file="Source/MyKeyboard.h"/>
       <FILE id="d5mMGc" name="MySynthesiser.h" compile="0" resource="0" file="Source/MySynthesiser.h"/>
       <FILE id="NH45iW" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>

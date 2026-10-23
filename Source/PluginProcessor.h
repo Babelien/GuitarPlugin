@@ -58,6 +58,8 @@ public:
 
 	juce::Synthesiser* getSynth() { return synth; }
 	juce::MidiKeyboardState* getKeyboardState() { return keyboardState; }
+	juce::MidiBuffer getMidiMessages() { return midiMessages; }
+    int getNumSamples() { return numSamples; }
 	juce::AudioParameterFloat* gainParameter;
 private:
     //==============================================================================
@@ -65,6 +67,8 @@ private:
 	void createSoundForArticulation(juce::Synthesiser* synth, juce::AudioFormatManager& manager, const std::unordered_map<juce::String, int*>& articulations, int minNoteNumber, int maxNoteNumber, int roundRobinCount);
     juce::Synthesiser* synth;
 	juce::MidiKeyboardState* keyboardState;
+    juce::MidiBuffer midiMessages;
+	int numSamples = 0;
     double currentSampleRate = 0.0;
     double currentGain = 0.0;
 

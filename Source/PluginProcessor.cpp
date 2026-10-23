@@ -1,11 +1,3 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
@@ -14,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <unordered_map>
+#include <thread>
 
 #include "MySynthesiser.h"
 
@@ -33,7 +26,6 @@ GuitarPluginAudioProcessor::GuitarPluginAudioProcessor()
 	, gainParameter(new juce::AudioParameterFloat("gain", "Gain", 0.0f, 1.0f, 0.5f))
 {
     setupSynth();
-
 	addParameter(gainParameter);
 }
 
@@ -147,10 +139,11 @@ bool GuitarPluginAudioProcessor::isBusesLayoutSupported (const BusesLayout& layo
 #endif
 
 void GuitarPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
-{
+{    
+    keyboardState->processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), false);
+
     buffer.clear();
     synth->renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
-	//keyboardState->processNextMidiBuffer(midiMessages, 0, buffer.getNumSamples(), false);
 
     float maxMag = 24.0f;
 	float gain = (*gainParameter - 0.5f) * maxMag + 1.0f;

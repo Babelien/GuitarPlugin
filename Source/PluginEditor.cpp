@@ -1,18 +1,10 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin editor.
-
-  ==============================================================================
-*/
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
 //==============================================================================
 GuitarPluginAudioProcessorEditor::GuitarPluginAudioProcessorEditor(GuitarPluginAudioProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p),
-    keyboardComponent(*audioProcessor.getKeyboardState(), juce::MidiKeyboardComponent::horizontalKeyboard)
+    keyboard(audioProcessor.getKeyboardState(), audioProcessor.getSynth())
 {
 	const int windowWidth = 1000, windowHeight = 600;
     setSize(windowWidth, windowHeight);
@@ -33,15 +25,10 @@ GuitarPluginAudioProcessorEditor::GuitarPluginAudioProcessorEditor(GuitarPluginA
     addAndMakeVisible(gainKnob);
 
     // Keyboard
-    addAndMakeVisible(keyboardComponent);
-    audioProcessor.getKeyboardState()->addListener(this);
-    keyboardComponent.setAvailableRange(24, 108); // Set the available range of the keyboard (C2 to C7)
-    keyboardComponent.setKeyWidth(20);
-    keyboardComponent.setColour(juce::MidiKeyboardComponent::keyDownOverlayColourId, juce::Colours::lightblue);
-    keyboardComponent.setColour(juce::MidiKeyboardComponent::mouseOverKeyOverlayColourId, juce::Colours::lightblue);
-
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
+	addAndMakeVisible(keyboard);
+    keyboard.setAvailableRange(24, 108);
+    keyboard.setKeyWidth(20);
+    keyboard.createKeys();
 }
 
 GuitarPluginAudioProcessorEditor::~GuitarPluginAudioProcessorEditor()
@@ -66,7 +53,8 @@ void GuitarPluginAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
     auto area = getLocalBounds();
-    keyboardComponent.setBounds(area.removeFromBottom(getHeight() * 0.18));
+
+	keyboard.setBounds(area.removeFromBottom(getHeight() * 0.18));
 }
 
 void GuitarPluginAudioProcessorEditor::handleIncomingMidiMessage(juce::MidiInput* source, const juce::MidiMessage& message)
@@ -74,15 +62,6 @@ void GuitarPluginAudioProcessorEditor::handleIncomingMidiMessage(juce::MidiInput
 	audioProcessor.getKeyboardState()->processNextMidiEvent(message);
 }
 
-void GuitarPluginAudioProcessorEditor::handleNoteOn(juce::MidiKeyboardState* state, int midiChannel, int midiNoteNumber, float velocity)
-{
-	audioProcessor.getSynth()->noteOn(midiChannel, midiNoteNumber, velocity);
-}
-
-void GuitarPluginAudioProcessorEditor::handleNoteOff(juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity)
-{
-    audioProcessor.getSynth()->noteOff(midiChannel, midiNoteNumber, velocity, true);
-}
 
 void GuitarPluginAudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
 {

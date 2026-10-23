@@ -10,12 +10,12 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "MyKeyboard.h"
 
 //==============================================================================
 /**
 */
 class GuitarPluginAudioProcessorEditor : public juce::AudioProcessorEditor,
-	public juce::MidiKeyboardStateListener,
     public juce::MidiInputCallback,
     public juce::Slider::Listener
 {
@@ -30,9 +30,6 @@ public:
     // juce::MidiInputCallback overrides
 	void handleIncomingMidiMessage(juce::MidiInput* source, const juce::MidiMessage& message) override;
 
-	void handleNoteOn(juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
-	void handleNoteOff(juce::MidiKeyboardState*, int midiChannel, int midiNoteNumber, float velocity) override;
-
 	void sliderValueChanged(juce::Slider* slider) override;
 private:
 
@@ -40,7 +37,7 @@ private:
     // access the processor object that created it.
     GuitarPluginAudioProcessor& audioProcessor;
 
-	juce::MidiKeyboardComponent keyboardComponent;
+    MyKeyboard keyboard;
 
     juce::Slider gainKnob;
 
