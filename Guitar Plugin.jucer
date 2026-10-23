@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="fy8u9A" name="Demonic Guitar" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
-              companyName="Tokyo Toneworks" pluginFormats="buildStandalone,buildVST3">
+              companyName="Tokyo Toneworks" pluginFormats="buildAAX,buildAU,buildStandalone,buildVST3">
   <MAINGROUP id="uYxzDl" name="Demonic Guitar">
     <GROUP id="{11F73EEE-1B17-A0E7-C5AF-AB87C3C85062}" name="Source">
       <FILE id="oDypF7" name="MyKeyboard.cpp" compile="1" resource="0" file="Source/MyKeyboard.cpp"/>
